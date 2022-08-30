@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        .barred{
+            text-decoration:line-through;
+        }
+    </style>
+  </head>
+
+  <body>
+    <h1>total todos : <span id="totalCounter"> </span></h1>
+    <h2>todos done : <span id="doneCounter"> </span></h2>
+    <input type="text" name="todo" value="" />
+    <button>ajouter</button>
+    <ul></ul>
+  </body>
+  <script>
+    const listeHTML = document.querySelector("ul");
+    const addButton = document.querySelector("button");
+    const inputTodo = document.querySelector("input");
+    const totalCounter = document.querySelector("#totalCounter");
+    const doneCounter = document.querySelector("#doneCounter");
+    // kif nenzel al button ykharali alert ("rak nzelt")
+    let totalTodos = 0;
+    addButton.onclick = () => {
+      addTodo();
+    };
+    inputTodo.onkeydown = (e) => {
+      if (e.key == "Enter") {
+        addTodo();
+      }
+    };
+    document
+      .querySelectorAll("*")
+      .forEach((el) => el.addEventListener("mouseover", (e) => {}));
+
+    const addTodo = (e) => {
+      if (!inputTodo.value.length) {
+        alert("element feregh");
+        return false;
+      }
+      let li = document.createElement("li");
+      let checkbox = document.createElement("input");
+      checkbox.setAttribute("type", "checkbox");
+      checkbox.addEventListener("click", check);
+      let input = document.createElement("input");
+      input.setAttribute("type",'text')
+      input.setAttribute("value", inputTodo.value);
+      input.setAttribute("readonly",true)
+      let editButton = document.createElement("button");
+      editButton.innerText = "edit";
+      editButton.addEventListener("click", editTodo);
+
+      let deleteButton = document.createElement("button");
+      deleteButton.innerText = "delete";
+      deleteButton.addEventListener("click", deleteTodo);
+      li.appendChild(checkbox);
+      li.appendChild(input);
+      li.appendChild(editButton);
+      li.appendChild(deleteButton);
+      inputTodo.value = "";
+      listeHTML.appendChild(li);
+      totalTodos++;
+      updateCounters();
+    };
+
+    const updateCounters = () => {
+      totalCounter.innerText = totalTodos;
+      let done = [...document.querySelectorAll("[type=checkbox]")].filter(
+        (c) => c.checked
+      ).length;
+      console.log(done);
+      doneCounter.innerText = done;
+    };
+
+
+    const deleteTodo = (e) => {
+      e.target.parentNode.remove();
+      console.log("delete clicked ");
+
+    };
+
+    const check=(e) => {
+      updateCounters()
+    if (e.target.checked) {
+        console.log("checked")
+       e.target.parentElement.querySelector("[type=text]").classList.add("barred")
+      
+    }}
+let clicked=false
+   const editTodo=(e)=>{
+    console.log("dkhlt")
+clicked=!clicked
+if(clicked){
+  this.innerText = "save";
+    input.readOnly=false
+    input.style.border="2px solid black"
+  }
+else {
+  this.innerText = "edit";
+    input.readOnly=true;
+    input.style.border="none"
+}
+   }
+
+
+
+    
+       
+
+    
+  </script>
+</html>
